@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/**
+ * 디자인 토큰 — constants/tokens.ts(= Figma 🎨 Foundations)의 Tailwind v4 미러.
+ * Foundations 변경 시 tokens.ts와 이 블록을 함께 갱신한다.
+ */
+@theme {
+  /* Primary — 워터블루 */
+  --color-primary: #0e7c86;
+  --color-primary-strong: #0a5f67;
+  --color-primary-blue: #2e9bd6;
+  --color-primary-10: #e5f4f5;
+  --color-primary-5: #f2fafa;
+
+  /* Text / Surface / Line */
+  --color-text: #2a2d34;
+  --color-text-sub: #9797a0;
+  --color-line: #eaeaec;
+  --color-bg: #f4f5f6;
+  --color-surface: #ffffff;
+
+  /* 상태 (앱 핵심 규약) — getPoolNowStatus와 1:1 */
+  --color-now-open: #2db16b;
+  --color-upcoming: #f0a231;
+  --color-closed: #9797a0;
+  --color-error: #c80000;
+
+  /* 상태 뱃지 — 틴트 배경(10%) + 텍스트 잉크(AA 대비) */
+  --color-now-open-soft: #2db16b1a;
+  --color-now-open-ink: #1e8f54;
+  --color-upcoming-soft: #f0a2311a;
+  --color-upcoming-ink: #c77e1f;
+  --color-closed-soft: #9797a01a;
+  --color-closed-ink: #6b6b73;
+
+  /* 칩 비활성 텍스트 */
+  --color-text-mute: #5b5b63;
+
+  /* 타이포 스케일 */
+  --text-h1: 28px;
+  --text-h2: 24px;
+  --text-h3: 20px;
+  --text-body: 16px;
+  --text-sm: 14px;
+  --text-xs: 12px;
+  --text-micro: 10px;
+
+  /* 라운드 */
+  --radius-button: 8px;
+  --radius-input: 12px;
+  --radius-sheet: 14px;
+
+  --font-sans: "Pretendard", "Noto Sans KR", ui-sans-serif, system-ui,
+    -apple-system, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  letter-spacing: -0.04em; /* tracking -4% */
 }

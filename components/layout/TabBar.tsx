@@ -1,0 +1,52 @@
+import Link from 'next/link';
+import { IconHome, IconBell, IconGrid } from '@/components/ui/icons';
+import { cn } from '@/lib/cn';
+
+/**
+ * 하단 탭바 — 홈 / 강습알림 / 더보기.
+ * 홈만 활성(현재 라우트). 강습알림·더보기 화면은 미구현이라 비활성 표시.
+ */
+const TABS = [
+  { key: 'home', label: '홈', Icon: IconHome, href: '/' as const },
+  { key: 'lessons', label: '강습알림', Icon: IconBell, href: null },
+  { key: 'more', label: '더보기', Icon: IconGrid, href: null },
+];
+
+export function TabBar({ active = 'home' }: { active?: string }) {
+  return (
+    <nav className="fixed inset-x-0 bottom-0 z-10">
+      <div className="mx-auto flex w-full max-w-md items-center justify-between rounded-t-sheet bg-surface px-10 pb-3 pt-2 shadow-[0px_-1px_2px_rgba(0,0,0,0.1)]">
+        {TABS.map(({ key, label, Icon, href }) => {
+          const isActive = key === active;
+          const inner = (
+            <span
+              className={cn(
+                'flex flex-col items-center gap-1',
+                isActive ? 'text-primary' : 'text-closed',
+              )}
+            >
+              <Icon className="size-5" />
+              <span
+                className={cn(
+                  'text-micro',
+                  isActive ? 'font-bold' : 'font-normal',
+                )}
+              >
+                {label}
+              </span>
+            </span>
+          );
+          return href ? (
+            <Link key={key} href={href}>
+              {inner}
+            </Link>
+          ) : (
+            <span key={key} aria-disabled className="cursor-default">
+              {inner}
+            </span>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}

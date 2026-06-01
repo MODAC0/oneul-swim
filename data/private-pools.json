@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "service": "오늘수영 (oneul-swim)",
+    "source": "네이버 플레이스 'pcmap.place.naver.com' 검색('하남시 수영장','하남 자유수영')",
+    "crawledAt": "2026-06-01",
+    "finding": "하남 사설 수영장 10곳은 전부 어린이 강습 또는 성인 1:1 레슨 전용. '하남 자유수영' 검색 0건 → 일반인 자유수영(일일권 입장) 제공 사설 풀 없음.",
+    "decision": "자유수영 핵심 데이터(pools.json)에는 미포함. 본 파일은 (a)재조사 방지 기록 (b)향후 '아이 수영강습 찾기' 별개 기능 검토용 보존.",
+    "todo": "전화·주소·운영시간은 미수집(필요 시 네이버 플레이스 상세 또는 수동 확인). hasFreeSwim 은 미검증 false — 일부 시설이 비공개 자유개방 시간을 둘 수 있어 확정 전 전화 확인 권장."
+  },
+  "privatePools": [
+    { "name": "아이콕스 어린이수영장", "region": "망월동", "type": "어린이강습", "hasFreeSwim": false },
+    { "name": "타잔B&G어린이수영장", "region": "망월동", "type": "어린이강습", "hasFreeSwim": false },
+    { "name": "쁘띠몽드 스위밍 아카데미", "region": "망월동", "type": "어린이강습", "hasFreeSwim": false, "note": "해수풀" },
+    { "name": "조이앤풀 하남", "region": "망월동", "type": "어린이강습", "hasFreeSwim": false },
+    { "name": "더밸런스윔존 밸런스풀", "region": "망월동", "type": "성인1:1", "hasFreeSwim": false, "note": "엔드리스풀, 24시간 영업, 전문 1:1 강습" },
+    { "name": "키즈앤풀플러스", "region": "신장동", "type": "어린이강습", "hasFreeSwim": false },
+    { "name": "벌키키즈36.5어린이수영장", "region": "신장동", "type": "어린이강습", "hasFreeSwim": false, "note": "휠체어 출입 가능" },
+    { "name": "더피앤피 감일지점", "region": "감이동", "type": "어린이강습", "hasFreeSwim": false },
+    { "name": "풀런키즈스윔 하남감일점", "region": "감이동", "type": "어린이강습", "hasFreeSwim": false, "note": "친환경 해수풀, 네이버페이 예약" },
+    { "name": "오션차일드 미사센터", "region": "풍산동", "type": "어린이강습", "hasFreeSwim": false }
+  ]
+}
