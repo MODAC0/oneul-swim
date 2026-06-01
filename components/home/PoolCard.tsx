@@ -2,18 +2,17 @@ import Link from 'next/link';
 import type { Pool } from '@/lib/types';
 import type { Dayjs } from '@/lib/time';
 import { getPoolNowStatus, priceTiers } from '@/lib/pools';
+import { formatWon, tierLabel } from '@/lib/format';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { FreshnessTag } from '@/components/ui/FreshnessTag';
-
-const won = (n: number) => `${n.toLocaleString()}원`;
 
 /** 시설이 제공하는 자유수영 요금(전일/반일)을 세션 tier 기준으로 요약 */
 function priceSummary(pool: Pool): string {
   const tiers = new Set(pool.freeSwim.sessions.map((s) => s.tier));
-  const parts: string[] = [];
-  if (tiers.has('full')) parts.push(`전일 ${won(priceTiers.full.성인)}`);
-  if (tiers.has('half')) parts.push(`반일 ${won(priceTiers.half.성인)}`);
-  return parts.join(' · ');
+  return (['full', 'half'] as const)
+    .filter((t) => tiers.has(t))
+    .map((t) => `${tierLabel(t, true)} ${formatWon(priceTiers[t].성인)}`)
+    .join(' · ');
 }
 
 /** 홈 리스트 카드 — Figma Home 디자인 바인딩. 탭하면 상세로. */

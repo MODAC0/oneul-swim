@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/cn';
+import { Chip } from '@/components/ui/Chip';
 
 export type PoolFilter = 'now' | 'today' | 'all';
 
@@ -20,24 +20,15 @@ export function FilterChips({
 }) {
   return (
     <div className="flex gap-2">
-      {CHIPS.map((c) => {
-        const active = c.value === value;
-        return (
-          <button
-            key={c.value}
-            type="button"
-            onClick={() => onChange(c.value)}
-            className={cn(
-              'rounded-full px-4 py-2 text-sm transition',
-              active
-                ? 'bg-primary font-bold text-white'
-                : 'border border-line bg-surface font-normal text-text-mute',
-            )}
-          >
-            {c.label}
-          </button>
-        );
-      })}
+      {CHIPS.map((c) => (
+        <Chip
+          key={c.value}
+          selected={c.value === value}
+          onClick={() => onChange(c.value)}
+        >
+          {c.label}
+        </Chip>
+      ))}
     </div>
   );
 }

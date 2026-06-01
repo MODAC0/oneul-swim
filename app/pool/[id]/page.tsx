@@ -2,16 +2,22 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getPoolById, getPoolNowStatus } from '@/lib/pools';
 import { nowInSeoul } from '@/lib/time';
+import { Header } from '@/components/layout/Header';
 import { StatusBadge } from '@/components/ui/StatusBadge';
-import { FreshnessTag } from '@/components/ui/FreshnessTag';
-import { FreeSwimSchedule } from '@/components/pool/FreeSwimSchedule';
-import { FeeTable } from '@/components/pool/FeeTable';
-import { LessonList } from '@/components/pool/LessonList';
-import { PoolActions } from '@/components/pool/PoolActions';
+import { buttonClass } from '@/components/ui/Button';
+import { cn } from '@/lib/cn';
+import { DaySchedule } from '@/components/pool/DaySchedule';
+import { FeeCard } from '@/components/pool/FeeCard';
+import { ReportSheet } from '@/components/report/ReportSheet';
+import {
+  IconWarning,
+  IconPhone,
+  IconNavigation,
+  IconBell,
+} from '@/components/ui/icons';
 
 export const dynamic = 'force-dynamic';
 
-// TODO: Figma F2(시설상세) 디자인 동기화되면 마크업/스타일 정밀 바인딩.
 export default async function PoolDetailPage({
   params,
 }: {
@@ -19,51 +25,58 @@ export default async function PoolDetailPage({
 }) {
   const { id } = await params;
   const pool = getPoolById(id);
-  if (!pool) redirect('/'); // 존재하지 않는 시설 → 홈
+  if (!pool) redirect('/');
 
   const now = nowInSeoul();
   const status = getPoolNowStatus(pool, now);
+  const kakaoTo =
+    pool.lat != null && pool.lng != null
+      ? `https://map.kakao.com/link/to/${encodeURIComponent(pool.name)},${pool.lat},${pool.lng}`
+      : null;
 
   return (
-    <main className="mx-auto w-full max-w-md px-4 pb-10 pt-6">
-      <Link href="/" className="text-sm text-text-sub">
-        ← 목록
+    <main className="mx-auto flex w-full max-w-md flex-col gap-4 px-6 pb-10 pt-12">
+      <Header variant="back" title={pool.name} backHref="/" />
+
+      <StatusBadge status={status} />
+
+      {pool.notice && (
+        <div className="flex w-full items-start gap-1.5 rounded-input bg-upcoming-soft p-4">
+          <IconWarning className="mt-px size-4 shrink-0 text-upcoming-ink" />
+          <p className="text-[13px] leading-relaxed text-upcoming-ink">
+            {pool.notice}
+          </p>
+        </div>
+      )}
+
+      <DaySchedule pool={pool} />
+
+      <FeeCard pool={pool} />
+
+      <div className="flex w-full gap-2.5">
+        <a href={`tel:${pool.phone}`} className={cn(buttonClass('medium'), 'flex-1')}>
+          <IconPhone className="size-4.5" />
+          전화
+        </a>
+        {kakaoTo && (
+          <a
+            href={kakaoTo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonClass('medium'), 'flex-1')}
+          >
+            <IconNavigation className="size-4.5" />
+            길찾기
+          </a>
+        )}
+      </div>
+
+      <Link href="/lessons" className={buttonClass('solid')}>
+        <IconBell className="size-4.5" />
+        강습 등록일 알림 받기
       </Link>
 
-      <header className="mt-3 mb-4">
-        <div className="mb-1.5 flex items-center gap-2">
-          <span className="rounded-full bg-primary-10 px-2 py-0.5 text-xs font-medium text-primary">
-            {pool.region}
-          </span>
-          <FreshnessTag updatedAt={pool.updatedAt} />
-        </div>
-        <h1 className="text-h2 font-bold text-text">{pool.name}</h1>
-        <div className="mt-2">
-          <StatusBadge status={status} />
-        </div>
-        {pool.address && (
-          <p className="mt-2 text-sm text-text-sub">{pool.address}</p>
-        )}
-      </header>
-
-      <div className="flex flex-col gap-3">
-        <FreeSwimSchedule pool={pool} status={status} />
-        <FeeTable pool={pool} />
-        <LessonList pool={pool} />
-
-        {pool.notice && (
-          <section className="rounded-input bg-surface p-4 ring-1 ring-line">
-            <h2 className="text-sm font-bold text-text-sub">이용 안내</h2>
-            <p className="mt-2 text-sm leading-relaxed text-text-sub">
-              {pool.notice}
-            </p>
-          </section>
-        )}
-      </div>
-
-      <div className="mt-4">
-        <PoolActions pool={pool} />
-      </div>
+      <ReportSheet poolName={pool.name} />
     </main>
   );
 }

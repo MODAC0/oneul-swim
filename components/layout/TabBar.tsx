@@ -7,10 +7,10 @@ import { cn } from '@/lib/cn';
  * 홈만 활성(현재 라우트). 강습알림·더보기 화면은 미구현이라 비활성 표시.
  */
 const TABS = [
-  { key: 'home', label: '홈', Icon: IconHome, href: '/' as const },
-  { key: 'lessons', label: '강습알림', Icon: IconBell, href: null },
-  { key: 'more', label: '더보기', Icon: IconGrid, href: null },
-];
+  { key: 'home', label: '홈', Icon: IconHome, href: '/' },
+  { key: 'lessons', label: '강습알림', Icon: IconBell, href: '/lessons' },
+  { key: 'more', label: '더보기', Icon: IconGrid, href: '/more' },
+] as const;
 
 export function TabBar({ active = 'home' }: { active?: string }) {
   return (
